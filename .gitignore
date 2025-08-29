@@ -1,0 +1,16 @@
+# Node
+node_modules/
+npm-debug.log
+.env
+
+# Docker
+pgdata/
+*.pid
+
+# Logs
+logs
+*.log
+
+# Build
+dist/
+

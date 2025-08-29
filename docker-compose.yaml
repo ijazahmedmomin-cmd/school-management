@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres 
+      POSTGRES_PASSWORD: postgres 
+      POSTGRES_DB: school_mgmt
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./seed_db:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    container_name: backend_service
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres_db:5432/school_mgmt
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - postgres
+    ports:
+      - "5007:5007"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  frontend:
+    build: ./frontend
+    command: npm run dev -- --host 0.0.0.0
+    container_name: frontend_service
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    environment:
+      VITE_API_URL: http://localhost:5007
+      VITE_APP_NAME: "Student Management System"
+      BROWSER: none
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+volumes:
+  postgres_data:
+
