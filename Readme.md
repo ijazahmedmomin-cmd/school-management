@@ -40,7 +40,7 @@ echo "EMAIL_VERIFICATION_TOKEN_TIME_IN_MS=18000000"
 
 echo "PASSWORD_SETUP_TOKEN_TIME_IN_MS=300000"
 
-   copy the output and update .env file under backend folder.
+   copy the output and update .env file under backend folder. we can customize the variables accordingly and update .env.
    
 3. Steps to run:
    
